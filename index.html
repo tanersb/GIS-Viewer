@@ -125,12 +125,13 @@
 
     /* ── TOPBAR ── */
     .topbar {
-      height: 52px;
+      height: calc(52px + env(safe-area-inset-top));
       background: var(--s1);
       border-bottom: 1px solid var(--bd);
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       padding: 0 16px;
+      padding-top: env(safe-area-inset-top);
       gap: 14px;
       flex-shrink: 0;
       z-index: 400;
@@ -1115,7 +1116,7 @@
     /* ── COORDS BAR ── */
     .cbar {
       position: fixed;
-      bottom: 12px;
+      bottom: max(12px, calc(env(safe-area-inset-bottom) + 4px));
       right: 12px;
       z-index: 800;
       background: var(--s1);
@@ -2043,7 +2044,7 @@
     </button>
     <div class="brand">
       <div class="brand-name">GIS Viewer</div>
-      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.5.4</span></div>
+      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.5.5</span></div>
     </div>
     <div class="topstats" id="topStats" style="display:none">
       <div class="tst"><span class="tst-val" id="ts-g" style="color:var(--acc)">—</span><span
