@@ -48,6 +48,10 @@
       -webkit-tap-highlight-color: transparent
     }
 
+    :root {
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
     html,
     body {
       height: 100%;
@@ -129,7 +133,7 @@
       background: var(--s1);
       border-bottom: 1px solid var(--bd);
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       padding: 0 16px;
       padding-top: env(safe-area-inset-top);
       gap: 14px;
@@ -1532,7 +1536,7 @@
         border: none !important;
         left: 50% !important;
         transform: translateX(-50%);
-        bottom: 12px !important;
+        bottom: max(12px, calc(env(safe-area-inset-bottom) + 4px)) !important;
         pointer-events: none;
       }
 
@@ -2044,7 +2048,7 @@
     </button>
     <div class="brand">
       <div class="brand-name">GIS Viewer</div>
-      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.5.5</span></div>
+      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.5.6</span></div>
     </div>
     <div class="topstats" id="topStats" style="display:none">
       <div class="tst"><span class="tst-val" id="ts-g" style="color:var(--acc)">—</span><span
@@ -2449,6 +2453,16 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/proj4@2.9.0/dist/proj4.js"></script>
   <script>
+    // ── iPhone safe-area-inset-bottom okuyucu ──────────────────────────
+    // env() değeri JS'de doğrudan okunamaz; gizli bir div yardımıyla alınır.
+    ;(function () {
+      const d = document.createElement('div');
+      d.style.cssText = 'position:fixed;bottom:env(safe-area-inset-bottom,0px);height:0;width:0;pointer-events:none;visibility:hidden';
+      document.documentElement.appendChild(d);
+      const raw = getComputedStyle(d).bottom;
+      window._safeAreaBottom = parseFloat(raw) || 0;
+      d.remove();
+    })();
     // ════════════════════════════════════════════════════════════════
     //  GISViewer CORE  —  v1.0
     //  Tüm modüller window.NCZViewer üzerinden erişir. (API adı korunuyor)
@@ -2851,8 +2865,10 @@
 
       function _positionFloaters(h) {
         const base = h > 0 ? h : 0;
-        if (fab) fab.style.bottom = (base + 16) + 'px';
-        if (cbar) cbar.style.bottom = (base + 12) + 'px';
+        // iPhone safe-area-inset-bottom değerini oku (home indicator için)
+        const safeBottom = window._safeAreaBottom || 0;
+        if (fab) fab.style.bottom = (base + 16 + safeBottom) + 'px';
+        if (cbar) cbar.style.bottom = (base + 12 + safeBottom) + 'px';
         // mob-ctrl sağ üstte sabit, sheet'ten bağımsız
       }
 
