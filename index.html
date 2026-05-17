@@ -1242,7 +1242,6 @@
       height: 0;
       /* transition sadece JS tetiklemeli açılış/kapanışta, swipe sırasında kaldırılır */
       transition: height .26s cubic-bezier(.4, 0, .2, 1);
-      padding-bottom: env(safe-area-inset-bottom);
     }
 
     /* Handle */
@@ -1305,7 +1304,9 @@
     .bs-tabs {
       display: flex;
       gap: 0;
-      border-top: 1px solid var(--bd)
+      border-top: 1px solid var(--bd);
+      flex-shrink: 0;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     .bs-tab {
@@ -2048,7 +2049,7 @@
     </button>
     <div class="brand">
       <div class="brand-name">GIS Viewer</div>
-      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.5.6</span></div>
+      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.5.7</span></div>
     </div>
     <div class="topstats" id="topStats" style="display:none">
       <div class="tst"><span class="tst-val" id="ts-g" style="color:var(--acc)">—</span><span
@@ -2849,8 +2850,11 @@
       const st = localStorage.getItem('ncz-theme'); if (st) setTheme(st);
 
       // ── Bottom Sheet ─────────────────────────────────────────────
-      const SHEET_SNAP_OPEN = Math.round(window.innerHeight * 0.52); // ~yarı ekran
-      const SHEET_SNAP_FULL = Math.round(window.innerHeight * 0.88); // ~tam ekran
+      // iPhone home indicator (safe-area-inset-bottom ~34px) padding-bottom olarak
+      // bsheet'e eklendi; sheet height hesabına da eklenmeli ki içerik kesilmesin.
+      const _sab = window._safeAreaBottom || 0;
+      const SHEET_SNAP_OPEN = Math.round(window.innerHeight * 0.52) + _sab; // ~yarı ekran
+      const SHEET_SNAP_FULL = Math.round(window.innerHeight * 0.88) + _sab; // ~tam ekran
       const SHEET_SNAP_CLOSE = 0;
       const SHEET_ANIM_MS = 260;
 
