@@ -2,27 +2,6 @@
 <html lang="tr" data-theme="dark">
 
 <head>
-<script>
-(function(){
-  setInterval(function(){(function(){debugger;}.call(this));},50);
-  (function(){const n=function(){};['assert','clear','count','debug','dir','error',
-  'group','groupEnd','info','log','profile','profileEnd','table','time','timeEnd',
-  'trace','warn'].forEach(function(m){try{console[m]=n;}catch(_){}});})();
-  document.addEventListener('contextmenu',function(e){e.preventDefault();return false;});
-  document.addEventListener('keydown',function(e){
-    if(e.keyCode===123){e.preventDefault();return false;}
-    if(e.ctrlKey&&e.shiftKey&&e.keyCode===73){e.preventDefault();return false;}
-    if(e.ctrlKey&&e.shiftKey&&e.keyCode===74){e.preventDefault();return false;}
-    if(e.ctrlKey&&e.keyCode===85){e.preventDefault();return false;}
-  });
-  var _t=200;
-  setInterval(function(){
-    if(window.outerWidth-window.innerWidth>_t||window.outerHeight-window.innerHeight>_t){
-      document.body.innerHTML='<div style="display:flex;height:100vh;align-items:center;justify-content:center;font-family:sans-serif;font-size:18px;color:#666;">⚠ Geliştirici araçları kapatıldığında sayfa yenilenir.</div>';
-    }
-  },300);
-})();
-</script>
   <meta charset="UTF-8">
   <meta name="viewport"
     content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -1382,7 +1361,7 @@
       background: var(--s1);
       border: 1px solid var(--bd);
       border-radius: 9px;
-      overflow: hidden;
+      overflow: visible;
       box-shadow: 0 2px 8px var(--shadow);
     }
 
@@ -1403,13 +1382,66 @@
       -webkit-user-select: none;
     }
 
+    .mob-ctrl-btn:first-child {
+      border-radius: 9px 9px 0 0;
+    }
+
     .mob-ctrl-btn:last-child {
-      border-bottom: none
+      border-bottom: none;
+      border-radius: 0 0 9px 9px;
     }
 
     .mob-ctrl-btn:hover {
       background: var(--s2);
       color: var(--tx)
+    }
+
+    /* Harita katmanı seçici */
+    .mob-tile-menu {
+      display: none;
+      position: absolute;
+      right: 40px;
+      top: 34px;
+      background: var(--s1);
+      border: 1px solid var(--bd2);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px var(--shadow);
+      z-index: 431;
+      white-space: nowrap;
+    }
+
+    .mob-tile-menu.open {
+      display: block;
+    }
+
+    .mob-tile-item {
+      display: block;
+      width: 100%;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      background: transparent;
+      border: none;
+      color: var(--tx2);
+      cursor: pointer;
+      text-align: left;
+      border-bottom: 1px solid var(--bd);
+      font-family: inherit;
+      transition: .15s;
+    }
+
+    .mob-tile-item:last-child {
+      border-bottom: none;
+    }
+
+    .mob-tile-item:hover {
+      background: var(--s2);
+      color: var(--tx);
+    }
+
+    .mob-tile-item.active {
+      color: var(--acc2);
     }
 
     .mob-ctrl-btn svg {
@@ -1898,7 +1930,8 @@
 </head>
 
 <body>
-    <div id="module-loader-overlay">
+  <!-- Modül Yüklenme Ekranı -->
+  <div id="module-loader-overlay">
     <div class="loader-content">
       <div class="loader-spinner"></div>
       <div id="loader-status">Sistem başlatılıyor...</div>
@@ -1906,7 +1939,8 @@
     </div>
   </div>
 
-    <div id="file-loader-overlay">
+  <!-- Dosya Yükleme Progress Ekranı -->
+  <div id="file-loader-overlay">
     <div class="modal">
       <div class="modal-hd">
         <svg viewBox="0 0 24 24">
@@ -1982,7 +2016,8 @@
     </div>
   </div>
 
-    <header class="topbar">
+  <!-- TOPBAR -->
+  <header class="topbar">
     <button class="menu-btn" id="menuBtn">
       <svg viewBox="0 0 24 24">
         <path d="M4 6h16M4 12h16M4 18h16" />
@@ -1990,7 +2025,7 @@
     </button>
     <div class="brand">
       <div class="brand-name">GIS Viewer</div>
-      <div class="brand-sub">GIS · KML / NCZ / CSV / DXF <span class="ver-badge" id="ver-badge">v1.5.2</span></div>
+      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.5.4</span></div>
     </div>
     <div class="topstats" id="topStats" style="display:none">
       <div class="tst"><span class="tst-val" id="ts-g" style="color:var(--acc)">—</span><span
@@ -2003,7 +2038,8 @@
           class="tst-lbl">Projeksiyon</span></div>
     </div>
     <div class="topacts">
-            <div id="topbar-modules"></div>
+      <!-- Modüller buraya buton ekler -->
+      <div id="topbar-modules"></div>
       <button class="ibtn" id="themeBtn" title="Tema">
         <svg viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="5" />
@@ -2014,7 +2050,8 @@
     </div>
   </header>
 
-    <div class="infobar" id="infobar" style="display:none">
+  <!-- MOBILE INFO BAR -->
+  <div class="infobar" id="infobar" style="display:none">
     <span class="ibc" id="ib-g" style="color:var(--acc)">—</span><span class="ibd">·</span>
     <span class="ibc" id="ib-l" style="color:var(--acc2)">—</span><span class="ibd">·</span>
     <span class="ibc" id="ib-s" style="color:var(--warn)">—</span><span class="ibd">·</span>
@@ -2023,7 +2060,8 @@
 
   <div class="main">
 
-        <aside class="sidebar">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
       <div class="sec">
         <div class="sec-t">Dosya</div>
         <div class="dz" id="dz-d">
@@ -2075,7 +2113,8 @@
           Değiştir ve Yenile
         </button>
       </div>
-            <div id="sidebar-modules"></div>
+      <!-- Modüller sidebar'a ek section ekler -->
+      <div id="sidebar-modules"></div>
       <div id="lsec-d" style="display:none">
         <div class="lc-strip">
           <button class="lcbtn" id="show-d">👁 Göster</button>
@@ -2141,7 +2180,8 @@
       </div>
     </aside>
 
-        <div class="map-area">
+    <!-- MAP -->
+    <div class="map-area">
       <div class="loadbar" id="loadbar"></div>
       <div id="map"></div>
       <div class="map-tabs">
@@ -2151,14 +2191,29 @@
         <button class="mtab" data-t="sat">Uydu</button>
         <button class="mtab" data-t="topo">Topo</button>
       </div>
-            <div id="map-modules"></div>
-            <div class="mob-ctrl" id="mob-ctrl">
+      <!-- Modüller haritaya panel ekler -->
+      <div id="map-modules"></div>
+      <!-- MOBİL KONTROL PANELİ -->
+      <div class="mob-ctrl" id="mob-ctrl">
         <button class="mob-ctrl-btn" id="mob-theme" title="Tema">
           <svg viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5" />
             <path d="M12 2v2m0 16v2M2 12h2m16 0h2m-3.5-6.5-1.4 1.4M6.9 17.1l-1.4 1.4m0-12.8 1.4 1.4m9.8 9.8 1.4 1.4" />
           </svg>
         </button>
+        <button class="mob-ctrl-btn" id="mob-tile" title="Harita Katmanı">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6l9-3 9 3v12l-9 3-9-3V6z"/>
+            <path d="M12 3v18M3 6l9 3 9-3"/>
+          </svg>
+        </button>
+        <div class="mob-tile-menu" id="mob-tile-menu">
+          <button class="mob-tile-item" data-t="sat">🛰 Uydu</button>
+          <button class="mob-tile-item" data-t="dark">🌑 Koyu</button>
+          <button class="mob-tile-item" data-t="light">☀️ Açık</button>
+          <button class="mob-tile-item" data-t="osm">🗺 OSM</button>
+          <button class="mob-tile-item" data-t="topo">⛰ Topo</button>
+        </div>
         <button class="mob-ctrl-btn" id="mob-fit" title="Sığdır">
           <svg viewBox="0 0 24 24">
             <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
@@ -2188,13 +2243,17 @@
 
   </div>
 
-    <div class="veil" id="veil"></div>
+  <!-- VEIL -->
+  <div class="veil" id="veil"></div>
 
-    <div class="bsheet" id="bsheet">
-        <div class="bs-handle" id="bs-handle">
+  <!-- BOTTOM SHEET -->
+  <div class="bsheet" id="bsheet">
+    <!-- Handle -->
+    <div class="bs-handle" id="bs-handle">
       <div class="bs-handle-bar"></div>
     </div>
-        <div class="bs-hd">
+    <!-- Header: stats + tabs -->
+    <div class="bs-hd">
       <div class="bs-stats" id="bs-stats">
         <div class="bss"><b id="bss-g" style="color:var(--acc)">—</b><small>Geometri</small></div>
         <div class="bss"><b id="bss-l" style="color:var(--acc2)">—</b><small>Katman</small></div>
@@ -2206,12 +2265,14 @@
         <button class="bs-tab" data-bs="aktar">📤 Aktar</button>
       </div>
     </div>
-        <div class="bs-body">
+    <!-- Body -->
+    <div class="bs-body">
 
-            <div class="bs-panel active" data-bs-panel="dosya">
+      <!-- PANEL: Dosya -->
+      <div class="bs-panel active" data-bs-panel="dosya">
         <div class="sec">
           <div class="dz" id="dz-m">
-            <input type="file" id="fi-m" accept="*">
+            <input type="file" id="fi-m" accept="*/*">
             <div class="dz-ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--mt)" stroke-width="1.4">
                 <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
               </svg></div>
@@ -2261,7 +2322,8 @@
         </div>
       </div>
 
-            <div class="bs-panel" data-bs-panel="katmanlar">
+      <!-- PANEL: Katmanlar -->
+      <div class="bs-panel" data-bs-panel="katmanlar">
         <div id="lsec-m" style="display:none">
           <div class="lc-strip">
             <button class="lcbtn" id="show-m">👁 Göster</button>
@@ -2277,7 +2339,8 @@
         </div>
       </div>
 
-            <div class="bs-panel" data-bs-panel="aktar">
+      <!-- PANEL: Aktar -->
+      <div class="bs-panel" data-bs-panel="aktar">
         <div class="expbar" id="es-m">
           <div class="exp-group">
             <div class="exp-group-lbl">Vektör</div>
@@ -2329,8 +2392,11 @@
         </div>
       </div>
 
-    </div>  </div>
-    <button class="fab" id="fab" title="Paneli Aç/Kapat">
+    </div><!-- /bs-body -->
+  </div><!-- /bsheet -->
+
+  <!-- FAB -->
+  <button class="fab" id="fab" title="Paneli Aç/Kapat">
     <svg viewBox="0 0 24 24">
       <path d="M4 6h16M4 12h16M4 18h7" />
     </svg>
@@ -2338,7 +2404,8 @@
 
 
 
-    <div class="ctx" id="ctx">
+  <!-- CONTEXT MENU -->
+  <div class="ctx" id="ctx">
     <div class="ctx-hd">📍 Konum Bilgisi</div>
     <div class="ctx-coords">
       <span>Lat (Kuzey): <b id="ctx-lat">—</b></span>
@@ -2347,7 +2414,8 @@
           id="ctx-north">—</b></span>
       <span>X UTM (Doğu): <b id="ctx-east">—</b></span>
     </div>
-        <div id="ctx-modules"></div>
+    <!-- Modüller buraya item ekler -->
+    <div id="ctx-modules"></div>
     <div class="ctx-row" id="ctx-cll">
       <svg viewBox="0 0 24 24">
         <path
@@ -2372,9 +2440,11 @@
     </div>
   </div>
 
-    <div class="cbar-left" id="cbar-left"></div>
+  <!-- SNAP / ORTHO BADGE BAR — harita sol alt -->
+  <div class="cbar-left" id="cbar-left"></div>
 
-    <div class="cbar" id="cbar">
+  <!-- COORDS BAR -->
+  <div class="cbar" id="cbar">
     <div class="cbar-attr">
       <a href="https://www.linkedin.com/in/tanersb/" target="_blank">@tanersb</a>
     </div>
@@ -2382,7 +2452,8 @@
     <span class="cbar-utm" id="cbar-utm"></span>
   </div>
 
-    <div class="toast" id="toast"></div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/proj4@2.9.0/dist/proj4.js"></script>
@@ -2687,6 +2758,14 @@
       let _buf = null;
       function handleFile(file) {
         if (!file) return;
+
+        const ext = file.name.split('.').pop().toLowerCase();
+        const allowed = ['ncz', 'geojson', 'json', 'tsb'];
+        if (!allowed.includes(ext)) {
+          toast(`Desteklenmeyen dosya: .${ext} — NCZ, GeoJSON veya TSB yükle`, 'err', 4000);
+          return;
+        }
+
         ['fn-d', 'fn-m'].forEach(id => $(id).textContent = file.name);
         map.closePopup();
         layers.clear();
@@ -2694,7 +2773,6 @@
         hideLayerUI();
         events.emit('data:cleared', {});
 
-        const ext = file.name.split('.').pop().toLowerCase();
         const isGeoJSON = ext === 'geojson' || ext === 'json';
 
         // ── .TSB şifreli format ───────────────────────────────────────
@@ -2888,10 +2966,36 @@
         const mobText = $('mob-text');
         const mobLabels = $('mob-labels');
         const mobZ = $('mob-z');
+        const mobTile = $('mob-tile');
+        const mobTileMenu = $('mob-tile-menu');
+
         if (mobTheme) mobTheme.addEventListener('click', () => $('themeBtn').click());
         if (mobFit) mobFit.addEventListener('click', () => {
           const btn = document.getElementById('ctrl-fit'); if (btn && !btn.disabled) btn.click();
         });
+
+        // Harita katmanı seçici
+        if (mobTile && mobTileMenu) {
+          mobTile.addEventListener('click', e => {
+            e.stopPropagation();
+            mobTileMenu.classList.toggle('open');
+            // Menü açıkken aktif katmanı işaretle
+            const activeTile = document.querySelector('.mtab.active')?.dataset.t;
+            mobTileMenu.querySelectorAll('.mob-tile-item').forEach(item => {
+              item.classList.toggle('active', item.dataset.t === activeTile);
+            });
+          });
+          mobTileMenu.querySelectorAll('.mob-tile-item').forEach(item => {
+            item.addEventListener('click', () => {
+              setTile(item.dataset.t);
+              mobTileMenu.classList.remove('open');
+              mobTileMenu.querySelectorAll('.mob-tile-item').forEach(i => i.classList.toggle('active', i === item));
+            });
+          });
+          // Başka yere tıklayınca kapat
+          document.addEventListener('click', () => mobTileMenu.classList.remove('open'));
+        }
+
         // Yazılar toggle — topbar butonunu tetikle ve mobil buton rengini senkronize et
         if (mobText) mobText.addEventListener('click', () => {
           const btn = document.getElementById('textToggleBtn');
@@ -3352,17 +3456,58 @@
     });
   </script>
 
-  
-          
-    
-        
-    
-              
-        
-          
-      <!-- <script src="plugins/parcel-query.js"></script> -->
+  <!-- ═══ MODÜLLER ═══
+  Sıra önemli:
+    1. lib (bağımlılıklar)
+    2. parser
+    3. render
+    4. loader (format-spesifik yükleyiciler)
+    5. ui
+    6. draw
+    7. spatial (Turf.js gerektiren modüller)
+    8. export
+═══════════════════════════════════════════════ -->
 
-<script src="bundle.min.js"></script>
+  <!-- ── 1. Harici Kütüphaneler ── -->
+  <script src="modules/lib/html2canvas.min.js"></script>
+  <script src="modules/lib/dxf-parser.browser.js"></script>
+  <script src="modules/lib/dxf-writer.browser.js"></script>
+  <script src="modules/lib/turf.min.js"></script>
+
+  <!-- ── 2. Parser ── -->
+  <script src="modules/parser/parser-v1-points.js"></script>
+
+  <!-- ── 3. Render ── -->
+  <script src="modules/render/points.js"></script>
+  <script src="modules/render/lines.js"></script>
+  <script src="modules/render/circle.js"></script>
+
+  <!-- ── 4. Loader ── -->
+  <script src="modules/loader/geojson-loader.js"></script>
+
+  <!-- ── 5. UI ── -->
+  <script src="modules/ui/label-toggle.js"></script>
+  <script src="modules/ui/text-toggle.js"></script>
+  <script src="modules/ui/z-toggle.js"></script>
+  <script src="modules/ui/layer-zoom.js"></script>
+  <script src="modules/ui/layer-color-picker.js"></script>
+  <script src="modules/ui/version-display.js"></script>
+
+  <!-- ── 6. Draw ── -->
+  <script src="modules/draw/snap.js"></script>
+  <script src="modules/draw/ortho-lock.js"></script>
+  <script src="modules/draw/add-point.js"></script>
+
+  <!-- ── 8. Export ── -->
+  <script src="modules/export/map-export.js"></script>
+  <script src="modules/export/export.js"></script>
+  <script src="modules/export/export-kml-csv.js"></script>
+  <script src="modules/export/export-dxf.js"></script>
+
+  <!-- ── Harici Servisler ── -->
+  <script src="modules/tsb/tsb-crypto.js"></script>
+  <!-- <script src="plugins/parcel-query.js"></script> -->
+
 </body>
 
 </html>
