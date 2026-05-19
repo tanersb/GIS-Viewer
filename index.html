@@ -257,6 +257,12 @@
       background: var(--s3)
     }
 
+    /* Snap butonu — uzun basış için touch-action none gerekli */
+    #snapToggleBtn {
+      touch-action: none;
+      -webkit-touch-callout: none;
+    }
+
     .ibtn svg {
       width: 16px;
       height: 16px;
@@ -2089,7 +2095,7 @@
     </button>
     <div class="brand">
       <div class="brand-name">GIS Viewer</div>
-      <div class="brand-sub">KML / NCZ / CSV / DXF<span class="ver-badge" id="ver-badge">v1.6.6</span></div>
+      <div class="brand-sub">KML / NCZ / CSV / DXF <span class="ver-badge" id="ver-badge">v1.6.7</span></div>
     </div>
     <div class="topstats" id="topStats" style="display:none">
       <div class="tst"><span class="tst-val" id="ts-g" style="color:var(--acc)">—</span><span
@@ -2288,6 +2294,34 @@
         <button class="mob-ctrl-btn" id="mob-z" title="Kotlar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 10h-8m8 4h-8m8 4h-8M3 6v14m0 0h4m-4 0l7-14v14h4"></path>
+          </svg>
+        </button>
+        <button class="mob-ctrl-btn" id="mob-snap" title="Yakalama — Uzun bas: Tip Seçenekleri" style="color:var(--tx2);touch-action:none;-webkit-touch-callout:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <line x1="12" y1="2" x2="12" y2="22"/>
+            <circle cx="2"  cy="12" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="22" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="12" cy="2"  r="1.5" fill="currentColor" stroke="none"/>
+            <circle cx="12" cy="22" r="1.5" fill="currentColor" stroke="none"/>
+            <rect x="5.5"  y="10.5" width="3" height="3" transform="rotate(45 7  12)"/>
+            <rect x="15.5" y="10.5" width="3" height="3" transform="rotate(45 17 12)"/>
+            <rect x="10.5" y="5.5"  width="3" height="3" transform="rotate(45 12 7)"/>
+            <rect x="10.5" y="15.5" width="3" height="3" transform="rotate(45 12 17)"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+        <button class="mob-ctrl-btn" id="mob-add-point" title="Nokta Ekle" style="color:var(--tx2)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12h14"/>
+            <circle cx="12" cy="12" r="1" fill="currentColor"/>
+          </svg>
+        </button>
+        <button class="mob-ctrl-btn" id="mob-add-line" title="Çizgi Ekle" style="color:var(--tx2)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="19" x2="19" y2="5"/>
+            <circle cx="5"  cy="19" r="2" fill="currentColor" stroke="none"/>
+            <circle cx="19" cy="5"  r="2" fill="currentColor" stroke="none"/>
           </svg>
         </button>
       </div>
@@ -3622,7 +3656,7 @@
           
     
               
-        
+          
           
       <!-- <script src="plugins/parcel-query.js"></script> -->
 
