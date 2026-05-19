@@ -258,6 +258,23 @@
     }
 
     /* Snap butonu — uzun basış için touch-action none gerekli */
+    /* ── Çizgi modu — obje tıklamalarını engelle ────────────────────
+       Tüm Leaflet overlay/marker pane'leri pointer-events:none yapılır.
+       Böylece yazılar, noktalar, çizgiler tıklamayı bloklamaz;
+       haritaya tıklama çizgi noktası ekler.
+       İstisna: sadece snap indicator marker (ncz-snap-indicator) tıklanabilir. */
+    .ncz-drawing-mode .leaflet-overlay-pane,
+    .ncz-drawing-mode .leaflet-marker-pane,
+    .ncz-drawing-mode .leaflet-tooltip-pane,
+    .ncz-drawing-mode .leaflet-popup-pane,
+    .ncz-drawing-mode .leaflet-shadow-pane {
+      pointer-events: none !important;
+    }
+    .ncz-drawing-mode .leaflet-marker-pane .ncz-snap-indicator {
+      pointer-events: auto !important;
+    }
+
+    /* Snap butonu — uzun basış için touch-action none gerekli */
     #snapToggleBtn {
       touch-action: none;
       -webkit-touch-callout: none;
